@@ -10,7 +10,7 @@ class ThreadManager(models.Manager):
         qs = self.get_queryset().filter(qlookup).exclude(qlookup2).distinct()
         return qs
 
-    def get_or_new(self, user, other_username):
+    def get_or_new(self, user, other_username): # get_or_create
         username = user.username
         if username == other_username:
             return None

@@ -17,5 +17,7 @@ $ cd channels
 $ git clone https://github.com/codingforentrepreneurs/ChatXChannels .
 $ git reset 2d1d70cff13e77c5a83d50282b18e978d1f5fdbe --hard
 $ git remote remove origin
-
+$ virtualenv -p python3 .
+$ source bin/activate
+(channels) $ pip install -r requirements.txt
 ```

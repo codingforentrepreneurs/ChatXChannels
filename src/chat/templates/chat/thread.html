@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<ul>
+{% for message in object.message_set.all %}
+
+<li>{{ message.content }} via {{ message.user }}</li>
+
+{% endfor %}
+</ul>
+
+
+{% endblock %}

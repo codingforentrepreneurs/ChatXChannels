@@ -15,7 +15,7 @@ $ cd path/to/your/dev/folder
 $ mkdir channels
 $ cd channels
 $ git clone https://github.com/codingforentrepreneurs/ChatXChannels .
-$ git reset 44304f4898d7a598f2c9f2cc3e4f0d5bff3907f3 --hard
+$ git reset 2d1d70cff13e77c5a83d50282b18e978d1f5fdbe --hard
 $ git remote remove origin
 
 ```

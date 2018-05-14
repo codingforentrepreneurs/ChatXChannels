@@ -25,6 +25,7 @@ var socket = new WebSocket(webSocketEndpoint)
 
 socket.onmessage = function(e){
     console.log('message', e)
+    alert(e.data)
 }
 
 socket.onopen = function(e){

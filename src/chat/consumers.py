@@ -8,7 +8,13 @@ User = get_user_model()
 class ChatConsumer(AsyncConsumer):
     async def websocket_connect(self, event):
         # when the socket connects
-        print(event)
+        self.room_name = 'chatter' # single thread id
+        self.room_group_name = f'chat_{self.room_name}' # group
+
+        await self.channel_layer.group_add(
+            self.room_group_name, 
+            self.channel_name
+        )
         self.rando_user = await self.get_name()
         await self.send({
             "type": "websocket.accept"
@@ -16,19 +22,29 @@ class ChatConsumer(AsyncConsumer):
 
 
     async def websocket_receive(self, event): # websocket.receive
-        # when the socket connects
-        print(event['text'])
-        print(self.rando_user)
-        new_message_data = json.loads(event['text'])
-        print(new_message_data)
+        message_data = json.loads(event['text'])
+        final_message_data = json.dumps(message_data)
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'message': final_message_data
+            }
+        )
+
+    async def chat_message(self, event):
         await self.send({
             "type": "websocket.send",
-            "text": json.dumps(new_message_data)
+            "text": event['message']
         })
 
     async def websocket_disconnect(self, event):
         # when the socket connects
         print(event)
+        await self.channel_layer.group_discard(
+            self.room_group_name, 
+            self.channel_name
+        )
 
     @database_sync_to_async
     def get_name(self):

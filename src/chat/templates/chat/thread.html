@@ -2,7 +2,7 @@
 
 {% block content %}
 <h3>Thread for {% if user != object.first %}{{ object.first }}{% else %}{{ object.second }}{% endif %}</h3>
-<ul>
+<ul id='chat-items'>
 {% for chat in object.chatmessage_set.all %}
 
 <li>{{ chat.message }} via {{ chat.user }}</li>
@@ -24,7 +24,7 @@ $(document).ready(function(){
     // alert("jquery world")
     var formData = $("#form")
     var messageInput = $("#id_message")
-    
+    var chatItems = $('#chat-items')
     var loc = window.location
     var webSocketEndpoint =  'ws://' + loc.host + '/chat/'  // ws : wss
 
@@ -33,6 +33,9 @@ $(document).ready(function(){
     socket.onmessage = function(e){
         console.log('message', e)
         // alert(e.data)
+        var msgData = JSON.parse(e.data)
+        console.log(msgData)
+        chatItems.append(`<li>${msgData.msg} via ${msgData.user}</li>`)
     }
 
     socket.onopen = function(e){
@@ -43,6 +46,7 @@ $(document).ready(function(){
             console.log(messageText)
             var jsonData = JSON.stringify({msg: messageText, user:'jmitchel3'})
             socket.send(jsonData)
+            formData[0].reset()
         })
     }
 

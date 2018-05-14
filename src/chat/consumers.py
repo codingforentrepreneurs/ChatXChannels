@@ -23,6 +23,12 @@ class ChatConsumer(AsyncConsumer):
 
     async def websocket_receive(self, event): # websocket.receive
         message_data = json.loads(event['text'])
+        print()
+        user = self.scope['user']
+        username = "unknown"
+        if user.is_authenticated:
+            username = user.username
+        message_data["user"] = username
         final_message_data = json.dumps(message_data)
         await self.channel_layer.group_send(
             self.room_group_name,

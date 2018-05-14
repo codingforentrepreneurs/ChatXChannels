@@ -10,42 +10,60 @@
 {% endfor %}
 </ul>
 
-<form method='POST'> {% csrf_token %}
+<form id='form' method='POST'> {% csrf_token %}
 {{form.as_p }}
 <input type='submit' class='btn btn-primary'/>
 </form>
 
+{% endblock %}
+
+{% block script %}
 
 <script>
+$(document).ready(function(){
+    // alert("jquery world")
+    var formData = $("#form")
+    var messageInput = $("#id_message")
+    
+    var loc = window.location
+    var webSocketEndpoint =  'ws://' + loc.host + '/chat/'  // ws : wss
 
-var loc = window.location
-var webSocketEndpoint =  'ws://' + loc.host + '/chat/'  // ws : wss
+    var socket = new WebSocket(webSocketEndpoint)
 
-var socket = new WebSocket(webSocketEndpoint)
+    socket.onmessage = function(e){
+        console.log('message', e)
+        // alert(e.data)
+    }
 
-socket.onmessage = function(e){
-    console.log('message', e)
-    alert(e.data)
-}
+    socket.onopen = function(e){
+        console.log('open', e)
+        formData.submit(function(event){
+            event.preventDefault()
+            var messageText = messageInput.val()
+            console.log(messageText)
+            var jsonData = JSON.stringify({msg: messageText, user:'jmitchel3'})
+            socket.send(jsonData)
+        })
+    }
 
-socket.onopen = function(e){
-    console.log('open', e)
-}
+    socket.onerror = function(e){
+        console.log('error', e)
+    }
+    socket.onclose = function(e){
+        console.log('closed', e)
+    }
 
-socket.onerror = function(e){
-    console.log('error', e)
-}
-socket.onclose = function(e){
-    console.log('closed', e)
-}
 
-if (socket.readyState == WebSocket.OPEN) {
 
-} else if (socket.readyState == WebSocket.CONNECTING){
-    console.log("connecting..")
-}
 
+    if (socket.readyState == WebSocket.OPEN) {
+
+    } else if (socket.readyState == WebSocket.CONNECTING){
+        console.log("connecting..")
+    }
+
+
+})
 
 </script>
-
 {% endblock %}

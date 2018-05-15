@@ -16,8 +16,9 @@ class ChatConsumer(AsyncConsumer):
         # self.kwargs.get("username")
         self.other_username = self.scope['url_route']['kwargs']['username']
         user = self.scope['user']
-        self.cfe_chat_thread = await self.get_thread(user, self.other_username)
-        self.room_group_name = f'chat_{self.cfe_chat_thread.id}' # group
+        thread_obj = await self.get_thread(user, self.other_username)
+        self.cfe_chat_thread = thread_obj
+        self.room_group_name = thread_obj.room_group_name # group
 
         await self.channel_layer.group_add(
             self.room_group_name, 

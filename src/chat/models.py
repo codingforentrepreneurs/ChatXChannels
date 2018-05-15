@@ -42,6 +42,10 @@ class Thread(models.Model):
     
     objects      = ThreadManager()
 
+    @property
+    def room_group_name(self):
+        return f'chat_{self.id}'
+
 
 class ChatMessage(models.Model):
     thread      = models.ForeignKey(Thread, null=True, blank=True, on_delete=models.SET_NULL)

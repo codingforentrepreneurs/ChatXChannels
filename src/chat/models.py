@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q
 
+from .utils import broadcast_msg_to_chat
 
 class ThreadManager(models.Manager):
     def by_user(self, user):
@@ -45,6 +46,12 @@ class Thread(models.Model):
     @property
     def room_group_name(self):
         return f'chat_{self.id}'
+
+    def broadcast(self, msg=None):
+        if msg is not None:
+            broadcast_msg_to_chat(msg, group_name=self.room_group_name, user='admin')
+            return True
+        return False
 
 
 class ChatMessage(models.Model):

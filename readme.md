@@ -49,3 +49,9 @@ $ source bin/activate
 
 [12 - Save Chats in the Database](../../tree/82ca3c38bac99728a938600f3a42f8095fa8ad62/)
 
+[13 - Broadcast Messages to Group](../../tree/e58a5bd5611221c67b8fb9e41136f2300a612719/)
+
+[14 - Broadcast Utility](../../tree/98abe9a7fb413cf9da9e58967fe15abfbcb24f40/)
+
+[15 - Delayed Broadcast Message](../../tree/4763738e0080c878ac5351dd92f39c774615af40/)
+

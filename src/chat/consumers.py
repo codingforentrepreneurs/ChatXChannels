@@ -1,3 +1,4 @@
+import asyncio
 import json
 from django.contrib.auth import get_user_model
 from channels.consumer import SyncConsumer, AsyncConsumer
@@ -47,6 +48,17 @@ class ChatConsumer(AsyncConsumer):
                 'message': final_message_data
             }
         )
+
+    async def broadcast_message(self, event):
+        await self.send({
+            "type": "websocket.send",
+            "text": json.dumps({'msg': "Loading data please wait...", 'user': 'admin'})
+        })
+        await asyncio.sleep(15) ### chatbot? API -> another service --> response --> send
+        await self.send({
+            "type": "websocket.send",
+            "text": event['message']
+        })
 
     async def chat_message(self, event):
         await self.send({

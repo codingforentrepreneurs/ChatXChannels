@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
+from django.db.models.signals import post_save
 
 from .utils import broadcast_msg_to_chat
 
@@ -52,6 +53,15 @@ class Thread(models.Model):
             broadcast_msg_to_chat(msg, group_name=self.room_group_name, user='admin')
             return True
         return False
+
+# def new_user_receiver(sender, instance, created, *args ,**kargs):
+#     if created:
+#         UserKlass = instance.__class__
+#         my_admin_user = UserKlass.objects.get(id=1)
+#         obj, created = Thread.objects.get_or_new(my_admin_user, instance.username)
+#         obj.broadcast(msg='Hello and welcome')
+
+# post_save.connect(new_user_receiver, sender=settings.AUTH_USER_MODEL)
 
 
 class ChatMessage(models.Model):

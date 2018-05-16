@@ -26,7 +26,11 @@ $(document).ready(function(){
     var messageInput = $("#id_message")
     var chatItems = $('#chat-items')
     var loc = window.location
-    var webSocketEndpoint =  'ws://' + loc.host + loc.pathname  // ws : wss
+    var wsStart = "ws://"
+    if (loc.protocol == "https:"){
+        wsStart = "wss://"
+    }
+    var webSocketEndpoint =  wsStart + loc.host + loc.pathname  // ws : wss
     var socket = new WebSocket(webSocketEndpoint)
 
     socket.onmessage = function(e){

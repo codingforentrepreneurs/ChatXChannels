@@ -9,6 +9,10 @@ from .models import Thread, ChatMessage
 
 User = get_user_model()
 
+class TaskConsumer(AsyncConsumer):
+    async def welcome_message(self, event):
+        await asyncio.sleep(10)
+        print(event)
 
 
 class ChatConsumer(AsyncConsumer):

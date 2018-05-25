@@ -1,9 +1,9 @@
 from django.conf.urls import url
-from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.routing import ProtocolTypeRouter, URLRouter, ChannelNameRouter
 from channels.auth import AuthMiddlewareStack
 from channels.security.websocket import AllowedHostsOriginValidator, OriginValidator
 
-from chat.consumers import ChatConsumer
+from chat.consumers import ChatConsumer, TaskConsumer
 application = ProtocolTypeRouter({ 
     # Websocket chat handler
     'websocket': AllowedHostsOriginValidator(
@@ -15,5 +15,8 @@ application = ProtocolTypeRouter({
                 ]
             )
         ),
-    )
+    ),
+    'channel': ChannelNameRouter({
+        'task': TaskConsumer
+    })
 })

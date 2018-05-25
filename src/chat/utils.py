@@ -4,6 +4,16 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
 
+def trigger_welcome_message():
+    data = {
+        "type": "welcome_message",
+        "message": "Hello there!"
+    }
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.send)('task', data)
+
+
+
 def broadcast_msg_to_chat(msg, group_name, user='admin', event_type='broadcast_message'):
     channel_layer = get_channel_layer()
     actual_message = json.dumps({'msg': msg, 'user': user})

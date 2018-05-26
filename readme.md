@@ -27,6 +27,10 @@ $ source bin/activate
 
 
 ### Lecture Code
+
+
+### Section 1: WebSockets & Channels
+
 [2 - Non-Realtime Chat with Django only](../../tree/750056a8b580448a98fc6a4db6e5cfa939e35f32/)
 
 [3 - Setup Django Channels](../../tree/4594734e8872aeae9a7abe55102ad5fb2fb98467/)
@@ -56,4 +60,18 @@ $ source bin/activate
 [15 - Delayed Broadcast Message](../../tree/4763738e0080c878ac5351dd92f39c774615af40/)
 
 [16 - Deploy to Heroku](../../tree/7c901cb6dc6af5b1ae6ef0277d06fa538c07775a/)
+
+
+### Section 2: Workers & Channels
+
+
+[1 - Task Consumer](../../tree/77dcb3f74c8edc83912002ced48c23537c242c28/)
+
+[2 - Synchronous Trigger](../../tree/46e43e3b7ce20cf359178ca7390ad155bd42d15b/)
+
+[3 - Test Run Worker Process](../../tree/f26585880f07fd3f6ecb995b89be393bd2abfbfe/)
+
+[4 - Implement Worker Trigger](../../tree/f26585880f07fd3f6ecb995b89be393bd2abfbfe/)
+
+[5 - Complete the Consumer](../../tree/f26585880f07fd3f6ecb995b89be393bd2abfbfe/)
 

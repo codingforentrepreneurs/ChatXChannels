@@ -11,8 +11,28 @@ User = get_user_model()
 
 class TaskConsumer(AsyncConsumer):
     async def welcome_message(self, event):
-        await asyncio.sleep(10)
         print(event)
+        timeout = event.get("timeout", 20)
+        await asyncio.sleep(timeout)
+        message = event.get("message")
+        sender_id = event.get('sender_id')
+        receiver_id = event.get('receiver_id')
+        sender_user = await self.get_user_by_id(sender_id)
+        receiver_user = await self.get_user_by_id(receiver_id)
+        thread_obj = await self.get_thread(sender_user, receiver_user.username)
+        await self.create_welcome_chat_message(thread_obj, sender_user, message)
+
+    @database_sync_to_async
+    def get_user_by_id(self, user_id):
+        return User.objects.get(id=user_id)
+
+    @database_sync_to_async
+    def get_thread(self, user, other_username):
+        return Thread.objects.get_or_new(user, other_username)[0]
+
+    @database_sync_to_async
+    def create_welcome_chat_message(self, thread, user, message):
+        return ChatMessage.objects.create(thread=thread, user=user, message=message)
 
 
 class ChatConsumer(AsyncConsumer):

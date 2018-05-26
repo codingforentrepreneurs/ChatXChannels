@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_save
 
-from .utils import broadcast_msg_to_chat
+from .utils import broadcast_msg_to_chat, trigger_welcome_message
 
 class ThreadManager(models.Manager):
     def by_user(self, user):
@@ -54,14 +54,18 @@ class Thread(models.Model):
             return True
         return False
 
-# def new_user_receiver(sender, instance, created, *args ,**kargs):
-#     if created:
-#         UserKlass = instance.__class__
-#         my_admin_user = UserKlass.objects.get(id=1)
-#         obj, created = Thread.objects.get_or_new(my_admin_user, instance.username)
-#         obj.broadcast(msg='Hello and welcome')
+def new_user_receiver(sender, instance, created, *args ,**kargs):
+    if created:
+        # UserKlass = instance.__class__
+        # my_admin_user = UserKlass.objects.get(id=1)
+        # obj, created = Thread.objects.get_or_new(my_admin_user, instance.username)
+        # obj.broadcast(msg='Hello and welcome')
 
-# post_save.connect(new_user_receiver, sender=settings.AUTH_USER_MODEL)
+        sender_id = 1 # admin user, main sender
+        receiver_id = instance.id
+        trigger_welcome_message(sender_id, receiver_id)
+
+post_save.connect(new_user_receiver, sender=settings.AUTH_USER_MODEL)
 
 
 class ChatMessage(models.Model):

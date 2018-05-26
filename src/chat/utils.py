@@ -4,10 +4,13 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
 
-def trigger_welcome_message():
+def trigger_welcome_message(sender_id, receiver_id):
     data = {
         "type": "welcome_message",
-        "message": "Hello there!"
+        "message": "Hello there!",
+        "sender_id": sender_id,
+        "receiver_id": receiver_id,
+        "timeout": 45
     }
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.send)('task', data)
